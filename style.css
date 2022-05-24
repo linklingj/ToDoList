@@ -31,6 +31,10 @@ main {
     width: 100%;
 }
 
+ion-icon {
+    font-size: 20px;
+}
+
 .add-task {
     padding: 2rem 1rem;
     max-width: 800px;
@@ -102,12 +106,38 @@ input, button {
     font-weight: 300;
     text-align: center;
     color: var(--gray);
-    margin-bottom: 15px;
+    margin: 15px;
+}
+
+.task-list .select select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray);
+    font-size: 15px;
+    width: 70px;
+    background: none;
+}
+
+.task-list .select button {
+    position: absolute;
+    color: var(--gray);
+}
+
+.task-list .select {
+    display: flex;
+    justify-content: right;
+    margin: 10px;
+    overflow: hidden;
 }
 
 .task-list .task .content {
     display: flex;
     justify-content: space-between;
+    width: 100%;
     height: 60px;
     background-color: var(--darker);
     padding: 5px 20px;
@@ -115,28 +145,45 @@ input, button {
     margin-bottom: 5px;
 }
 
+.task-list .task .content .checkbox {
+    color: var(--light);
+    margin-right: 10px;
+    cursor: pointer;
+}
+
 .task-list .task .content .text {
     color: var(--light);
     font-size: 20px;
     flex: 1 1 0%;
     display: block;
-    transition: 0.3s;
 }
 
 .task-list .task .content .text:not(:read-only) {
     color: var(--pink);
 }
 
+.task-list .completed .text {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.task {
+    transition: 0.4s;
+}
+
+.fall {
+    transform: translateY(8rem) rotateZ(10deg);
+    opacity: 0;
+}
+
 .task .content .actions {
     display: flex;
-    
 }
 
 .task .content .actions button {
     cursor: pointer;
     font-size: 20px;
     font-weight: 500;
-    transition: 0,3s;
 }
 
 .task .content .actions button:hover {
