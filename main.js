@@ -65,6 +65,7 @@ window.addEventListener('load', ()=> {
 
         task_delete_el.addEventListener('click', () => {
             task_el.classList.add("fall");
+            removeLocalTodos(task);
             task_el.addEventListener('transitionend', () => {
                 if (list_el.contains(task_el)) {
                     list_el.removeChild(task_el);
@@ -113,24 +114,24 @@ window.addEventListener('load', ()=> {
         });
     }
 
-    function saveLocalTodos(todo) {
+    function getTodoList() {
         let todos;
         if (localStorage.getItem('todos') == null) {
             todos = [];
         } else {
             todos = JSON.parse(localStorage.getItem('todos'));
         }
+        return todos;
+    }
+
+    function saveLocalTodos(todo) {
+        let todos = getTodoList();
         todos.push(todo);
         localStorage.setItem("todos", JSON.stringify(todos));
     }
 
     function getTodos() {
-        let todos;
-        if (localStorage.getItem('todos') == null) {
-            todos = [];
-        } else {
-            todos = JSON.parse(localStorage.getItem('todos'));
-        }
+        let todos = getTodoList();
         todos.forEach(function(todo) {
             const task_el = document.createElement("div");
             task_el.classList.add("task");
@@ -165,6 +166,43 @@ window.addEventListener('load', ()=> {
             task_content_el.appendChild(task_action_el);
     
             list_el.appendChild(task_el);
+
+            task_edit_el.addEventListener('click', () => {
+                if (task_edit_el.innerText == "수정") {
+                    task_input_el.removeAttribute("readonly");
+                    task_input_el.focus();
+                    task_edit_el.innerText = "저장";
+                } else {
+                    task_input_el.setAttribute("readonly", true);
+                    task_edit_el.innerText = "수정";
+                }
+            })
+    
+            task_delete_el.addEventListener('click', () => {
+                task_el.classList.add("fall");
+                removeLocalTodos(todo);
+                task_el.addEventListener('transitionend', () => {
+                    if (list_el.contains(task_el)) {
+                        list_el.removeChild(task_el);
+                    }
+                });
+            })
+    
+            task_checkbox_el.addEventListener('click', () => {
+                task_el.classList.toggle("completed");
+                if (task_el.classList.contains("completed")) {
+                    task_checkbox_el.innerHTML = '<ion-icon name="checkbox-outline"></ion-icon>';
+                } else {
+                    task_checkbox_el.innerHTML = '<ion-icon name="square-outline"></ion-icon>';
+                }
+                updateShow();
+            })
         })
+    }
+
+    function removeLocalTodos(todo) {
+        let todos = getTodoList();
+        todos.splice(todos.indexOf(todo),1);
+        localStorage.setItem("todos", JSON.stringify(todos));
     }
 })
